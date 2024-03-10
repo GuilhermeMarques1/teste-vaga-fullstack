@@ -2,16 +2,20 @@ import {
   TableContainer, 
   Table as TableChakra,
   Thead, Tr, Th,
-  Tbody, Td, Tfoot
+  Tbody, Td
 } from "@chakra-ui/react";
 
 export function Table() {
   return (
-    <TableContainer>
+    <TableContainer
+      marginRight="4"
+      marginLeft="4"
+    >
       <TableChakra 
         variant='striped' 
-        colorScheme='teal'
+        colorScheme='blackAlpha'
         mt={4}
+        color="black.800"
       >
         <Thead>
           <Tr>
