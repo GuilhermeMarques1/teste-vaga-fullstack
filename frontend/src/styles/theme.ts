@@ -12,11 +12,15 @@ export const theme = extendTheme({
       "400": "#9fdfbc",
       "300": "#9699B0",
       "200": "#B3B5C6",
-      "100": "#D1D2DC",
+      "100": "#f0f2f5",
       "50": "#EEEEF2",
     },
     black: {
-      "900": "#333"
+      "900": "#000",
+      "700": "#333"
+    },
+    orange: {
+      "800": "#FF9902"
     }
   },
   fonts: {
@@ -26,8 +30,8 @@ export const theme = extendTheme({
   styles: {
     global: {
       body: {
-        bg: 'gray.900',
-        color: 'gray.50'
+        bg: 'green.100',
+        color: 'black.700'
       }
     }
   }
