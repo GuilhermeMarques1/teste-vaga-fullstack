@@ -1,10 +1,11 @@
 import { Header } from "@/Components/Header";
+import { Table } from "@/Components/Table";
 
 export default function Home() {
   return (
     <>
       <Header />
-      <h1>Hello, World</h1>
+      <Table />
     </>
   );
 }
