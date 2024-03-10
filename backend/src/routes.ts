@@ -1,12 +1,8 @@
 import { Router } from "express";
+import { getData } from "./controllers/CsvController";
 
 const routes = Router();
 
-routes.get("/data", (req, res) => {
-  return res.json({
-    name: "Guilherme",
-    age: 23
-  });
-});
+routes.get("/data", getData);
 
 export default routes;
