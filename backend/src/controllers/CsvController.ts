@@ -16,9 +16,6 @@ export async function getData(req: Request, res: Response) {
   const data: ICsvRow[] = [];
   let currentRow = 0;
 
-  console.log("page: ", page);
-  console.log("start: ", startRow);
-
   const stream = fs.createReadStream(csvPath)
     .pipe(csvParser())
     .on('error', () => {
@@ -42,14 +39,10 @@ export async function getData(req: Request, res: Response) {
       data.push(formattedRow);
     }
 
-    currentRow++;
-
-    if(currentRow === startRow + pageSize) stream.destroy();
+    if(data.length === startRow + pageSize) stream.destroy();
   });
 
   stream.on('close', () => {
-    res.status(200).json({
-      data: data,
-    });
+    res.status(200).json(data);
   })
 }
