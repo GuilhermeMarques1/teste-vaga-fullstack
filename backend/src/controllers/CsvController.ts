@@ -1,16 +1,19 @@
 import { Request, Response } from "express";
 import fs from "fs";
-import csvParser from "csv-parser";
 import path from "path";
+import csvParser from "csv-parser";
+import { ICsvRow } from "../types/IData";
+import { FormatData } from "../Helpers/FormatCsv";
+import { ValidateCpfCnpj } from "../Middleware/ValidateCpfCnpj";
 
 const csvPath = path.join(__dirname, '../../../data.csv');
-const pageSize = 100;
+const pageSize = 1000;
 
 export async function getData(req: Request, res: Response) {
   const page = Number(req.query.page) || 1;
   const startRow = (page - 1) * pageSize;
 
-  const data: any = [];
+  const data: ICsvRow[] = [];
   let currentRow = 0;
 
   console.log("page: ", page);
@@ -27,11 +30,16 @@ export async function getData(req: Request, res: Response) {
       });
     });
   
-  stream.on('data', (row) => {
-    if(currentRow >= startRow && currentRow < startRow + pageSize) {
-      console.log(row);
+  stream.on('data', (row: ICsvRow) => {
+    if (
+        currentRow >= startRow && 
+        currentRow < startRow + pageSize &&
+        ValidateCpfCnpj(row.nrCpfCnpj)
+      ) 
+    {
+      const formattedRow = FormatData(row);
 
-      data.push(row);
+      data.push(formattedRow);
     }
 
     currentRow++;
