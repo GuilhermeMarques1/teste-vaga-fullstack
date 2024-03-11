@@ -9,12 +9,14 @@ import {
 } from "chakra-paginator";
 import { ButtonProps } from "@chakra-ui/react";
 
-export function Paginator() {
-  const pagesQuantity = 12;
-  const { currentPage, setCurrentPage } = usePaginator({
-    initialState: { currentPage: 1 }
-  });
+type PaginatorProps = {
+  pagesQuantity: number,
+  currentPage: number,
+  setCurrentPage: (value: number) => void;
+  setIsLoading: (value: boolean) => void;
+}
 
+export function Paginator({ pagesQuantity, currentPage, setCurrentPage, setIsLoading }: PaginatorProps) {
   const normalStyles: ButtonProps = {
     w: 7,
     bg: "green.50",
@@ -37,13 +39,17 @@ export function Paginator() {
     w: 7,
     bg: "green.200"
   };
-  
+
+  function handlePageChange(value: number) {
+    setIsLoading(true);
+    setCurrentPage(value);
+  }
 
   return(
     <ChakraPaginator
       pagesQuantity={pagesQuantity}
       currentPage={currentPage}
-      onPageChange={setCurrentPage}
+      onPageChange={(value) => handlePageChange(value)}
       activeStyles={activeStyles}
       separatorStyles={separatorStyles}
       normalStyles={normalStyles}

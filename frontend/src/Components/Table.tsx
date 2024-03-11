@@ -10,19 +10,23 @@ import { ICsvRow } from "@/types/IData";
 import { toast } from "react-toastify";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { Paginator } from "./Paginator";
+import { usePaginator } from "chakra-paginator";
 
 export function Table() {
   const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(1);
   const [data, setData] = useState<ICsvRow[]>([]);
+  const [pagesQuantity, setPageQuatity] = useState(1);
+  const { currentPage, setCurrentPage } = usePaginator({
+    initialState: { currentPage: 1 }
+  });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await api.get(`/data?page=${page}`);
-        console.log(res.data);
-        const data = res.data as ICsvRow[];
-        setData(data);
+        const res = await api.get(`/data?page=${currentPage}`);
+        const data = res.data;
+        setData(data.data as ICsvRow[]);
+        setPageQuatity(data.totalPages);
         setIsLoading(false);
       } catch (error) {
         toast.error("Houve um erro ao buscar os dados");
@@ -30,7 +34,7 @@ export function Table() {
     }
 
     if(isLoading) fetchData();
-  }, []);
+  }, [currentPage]);
 
   return isLoading ?
     <div
@@ -71,8 +75,8 @@ export function Table() {
             </Thead>
             <Tbody>
               {
-                data.map((row) => (
-                  <Tr>
+                data.map((row, index) => (
+                  <Tr key={index}>
                     <Td>{row.nrCpfCnpj}</Td>
                     <Td>{row.nmClient}</Td>
                     <Td>{row.nrInst}</Td>
@@ -88,7 +92,12 @@ export function Table() {
             </Tbody>
           </TableChakra>
         </TableContainer>
-        <Paginator />
+        <Paginator 
+          pagesQuantity={pagesQuantity}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          setIsLoading={setIsLoading}
+        />
       </>
     );
 }
