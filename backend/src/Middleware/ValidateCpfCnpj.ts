@@ -1,23 +1,4 @@
-function CPFouCNPJ(cpfCnpj: string) {
-  let contador = cpfCnpj.replace(/[^0-9]/g,"").length;
-  if(contador == 11) {
-    if(validaCPF(cpfCnpj)) {
-      return true;
-    } else {
-      return false;
-    }
-  } else if(contador == 14) {
-    if(validaCNPJ(cpfCnpj)) {
-        return true;
-    } else {
-        return false;
-    }
-  } else {
-    return false;
-  }
-}
-
-function validaCPF(cpf: string) {  
+function verifyCPF(cpf: string) {  
   cpf = cpf.replace(/[^\d]+/g,'');
   if(cpf == '') return false;
   if (
@@ -57,7 +38,7 @@ function validaCPF(cpf: string) {
   return true;   
 }
 
-function validaCNPJ(cnpj: string) {
+function verifyCNPJ(cnpj: string) {
     cnpj = cnpj.replace(/[^\d]+/g,''); 
     let a = new Array();
     let b = 0;
@@ -83,4 +64,24 @@ function validaCNPJ(cnpj: string) {
         return false;
     }
     return true;
+}
+
+
+function ValidateCpfCnpj(cpfCnpj: string) {
+  let contador = cpfCnpj.replace(/[^0-9]/g,"").length;
+  if(contador == 11) {
+    if(verifyCPF(cpfCnpj)) {
+      return true;
+    } else {
+      return false;
+    }
+  } else if(contador == 14) {
+    if(verifyCNPJ(cpfCnpj)) {
+        return true;
+    } else {
+        return false;
+    }
+  } else {
+    return false;
+  }
 }
