@@ -8,6 +8,7 @@ import {
 import api from "@/services/api";
 import { ICsvRow } from "@/types/IData";
 import { toast } from "react-toastify";
+import { LoadingSpinner } from "./LoadingSpinner";
 
 export function Table() {
   const [isLoading, setIsLoading] = useState(true);
@@ -30,48 +31,60 @@ export function Table() {
     if(isLoading) fetchData();
   }, []);
 
-  return (
-    <TableContainer
-      marginRight="4"
-      marginLeft="4"
+  return isLoading ?
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "80vh"
+      }}
     >
-      <TableChakra 
-        variant='striped' 
-        colorScheme='blackAlpha'
-        mt={4}
-        color="black.800"
+      <LoadingSpinner /> 
+    </div> :
+    (
+      <TableContainer
+        marginRight="4"
+        marginLeft="4"
       >
-        <Thead>
-          <Tr>
-            <Th>CPF/CNPJ</Th>
-            <Th>Nome</Th>
-            <Th>Instituição</Th>
-            <Th>Data do contrato</Th>
-            <Th>Data vencimento</Th>
-            <Th>vlTotal</Th>
-            <Th>vlPresta</Th>
-            <Th>vlMulta</Th>
-            <Th>vlAtual</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {
-            data.map((row) => (
-              <Tr>
-                <Td>{row.nrCpfCnpj}</Td>
-                <Td>{row.nmClient}</Td>
-                <Td>{row.nrInst}</Td>
-                <Td>{row.dtContrato}</Td>
-                <Td>{row.dtVctPre}</Td>
-                <Td>{row.vlTotal}</Td>
-                <Td>{row.vlPresta}</Td>
-                <Td>{row.vlMulta}</Td>
-                <Td>{row.vlAtual}</Td>
-              </Tr>
-            ))
-          }
-        </Tbody>
-      </TableChakra>
-    </TableContainer>
-  );
+        <TableChakra 
+          variant='striped' 
+          colorScheme='blackAlpha'
+          mt={4}
+          color="black.800"
+        >
+          <Thead>
+            <Tr>
+              <Th>CPF/CNPJ</Th>
+              <Th>Nome</Th>
+              <Th>Instituição</Th>
+              <Th>Data do contrato</Th>
+              <Th>Data vencimento</Th>
+              <Th>vlTotal</Th>
+              <Th>vlPresta</Th>
+              <Th>vlMulta</Th>
+              <Th>vlAtual</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {
+              data.map((row) => (
+                <Tr>
+                  <Td>{row.nrCpfCnpj}</Td>
+                  <Td>{row.nmClient}</Td>
+                  <Td>{row.nrInst}</Td>
+                  <Td>{row.dtContrato}</Td>
+                  <Td>{row.dtVctPre}</Td>
+                  <Td>{row.vlTotal}</Td>
+                  <Td>{row.vlPresta}</Td>
+                  <Td>{row.vlMulta}</Td>
+                  <Td>{row.vlAtual}</Td>
+                </Tr>
+              ))
+            }
+          </Tbody>
+        </TableChakra>
+      </TableContainer>
+    );
 }
