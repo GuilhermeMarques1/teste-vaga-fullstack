@@ -67,7 +67,7 @@ function verifyCNPJ(cnpj: string) {
 }
 
 
-function ValidateCpfCnpj(cpfCnpj: string) {
+export function ValidateCpfCnpj(cpfCnpj: string) {
   let contador = cpfCnpj.replace(/[^0-9]/g,"").length;
   if(contador == 11) {
     if(verifyCPF(cpfCnpj)) {
